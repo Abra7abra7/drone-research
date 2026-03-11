@@ -39,6 +39,13 @@ Ensure Gazebo can find the ArduPilot plugins. Check `~/.zshrc` or the current en
 - `GZ_SIM_SYSTEM_PLUGIN_PATH`
 - `GZ_SIM_RESOURCE_PATH`
 
+### 4. Cleanup & Reset
+If the simulation hangs or ports are blocked:
+**Command:**
+```bash
+pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"
+```
+
 ## Troubleshooting Guide
 
 ### Issue: ArduPilot Build Fails

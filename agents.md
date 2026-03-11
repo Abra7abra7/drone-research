@@ -17,10 +17,11 @@ This repository is a specialized development environment for autonomous UAVs (Dr
 - **Python Setup**: Managed by `uv`, uses `.venv`.
 
 ## Simulation Workflow (Quick Start)
-1. **Turbo Start**: `./start_sim.sh`
+1. **Cleanup (Orderly Reset)**: `pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"`
+2. **Turbo Start**: `./start_sim.sh`
    - This cleans old processes, builds ArduPilot (if needed), sets Bratislava location, and links MAVSDK.
-2. **Setup Drone**: Wait for `AP: ArduPilot Ready` in SITL, then click **PLAY** in Gazebo.
-3. **Start Mission**: `uv run python fly.py`
+3. **Setup Drone**: Wait for `AP: ArduPilot Ready` in SITL, then click **PLAY** in Gazebo.
+4. **Start Mission**: `uv run python fly.py`
 
 ### Detailed Workflow (Manual)
 1. **Kill processes**: `pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"`
