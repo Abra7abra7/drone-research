@@ -40,6 +40,15 @@ This repository is a specialized development environment for autonomous UAVs (Dr
 
 ## Core Logic Files
 - `fly.py`: Main autonomous mission script using MAVSDK async patterns.
+- `advanced_mission.py`: Advanced autonomous mission script using Offboard control for dynamic velocity-based navigation.
 - `extra_params.parm`: Critical SITL parameter overrides (Arming & Throttle).
 - `pyproject.toml`: Modern project configuration (uv).
 - `docs/architecture_setup.md`: Full architectural deep-dive.
+
+## Advanced Simulation Workflow (Offboard Control)
+For testing more complex autonomy, an advanced environment is provided:
+1. **Turbo Start**: `./start_advanced.sh`
+   - Launches SITL, Gazebo Server with `advanced_world.sdf`, and Gazebo GUI cleanly.
+2. **Setup Drone**: Wait for `AP: ArduPilot Ready` in SITL, then click **PLAY** in Gazebo.
+3. **Start Mission**: `uv run python advanced_mission.py`
+   - This script demonstrates Offboard mode, which is highly recommended for AI-driven maneuvers (like obstacle avoidance via computer vision), as it sidesteps issues with MAVSDK's Mission API in SITL.
