@@ -11,4 +11,10 @@ dependencies = [
     "torchvision",
     "opencv-python",
     "numpy",
+    "future>=1.0.0",
+    "geocoder",
+    "mavproxy",
+    "pexpect",
+    "gnureadline",
+    "empy==3.3.4",
 ]

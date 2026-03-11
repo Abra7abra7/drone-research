@@ -42,25 +42,25 @@ Tieto cesty umožňujú Gazebu nájsť tvoj skompilovaný plugin a modely bez to
 ## 3. Postup pri Spúšťaní (Step-by-Step)
 
 ### A. Turbo Štart (Odporúčané)
-1. Spusti `./start_sim.sh` (otvorí terminály sám).
+1. Spusti `./start_sim.sh`.
 2. V Gazebo klikni na **Play**.
-3. Spusti `./drone_cmd.sh` (nastaví parametre drona).
+3. Počkaj v okne SITL na `AP: ArduPilot Ready`.
 4. Spusti misiu: `uv run python fly.py`.
 
 ### B. Manuálny postup (V prípade potreby)
 Vždy dodržiavaj toto poradie:
 
-1. **Čistenie:** `pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"` (zastaví zaseknuté procesy).
-2. **Autopilot (T1):** `sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --map --console`
-   - V okne MAVProxy zadaj: `param set ARMING_SKIPCHK 64`, `rc 3 1000` a `output add 127.0.0.1:14551`.
+1. **Čistenie:** `pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"`
+2. **Autopilot (T1):** `sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --location=Bratislava --add-param-file=extra_params.parm --out=udp:127.0.0.1:14551 --map --console`
 3. **Simulačný Server (T2):** `gz sim -s iris_runway.sdf`
 4. **Simulačné GUI (T3):** `gz sim -g`
-5. **Aktivácia:** V GUI klikni na **Play**.
+5. **Aktivácia:** V SITL počkaj na fix, v GUI klikni na **Play**.
 6. **Misia (T4):** `uv run python fly.py`
 
 ---
 
 ## 4. Riešenie Problémov (FAQ)
 - **"Link is down":** Zvyčajne znamená, že simulácia nie je v stave "Play" alebo nebeží Gazebo Server.
-- **"Address already in use":** Iný proces (napr. QGroundControl) blokuje port 14550 alebo 9002. Použi `lsof -i :9002` na nájdenie vinníka.
-- **Dron nerobí nič:** Skontroluj, či si v MAVProxy okne (Terminál 1) uvidíš "Arming". Ak nie, pravdepodobne chýba GPS fix (v Gazebo uvidíš drona na asfalte).
+- **"Throttle too high":** Opravené v `extra_params.parm`. Ak sa objaví, skontroluj, či sa parameter korektne načítal pri štarte SITL.
+- **"Address already in use":** Iný proces (napr. QGroundControl) blokuje porty. Použi `pkill -9 -f "mavproxy|arducopter"` a reštartuj.
+- **Dron nerobí nič:** Skontroluj, či si v SITL uvidíš "GPS OK". V Bratislave trvá fix cca 10-30 sekúnd.

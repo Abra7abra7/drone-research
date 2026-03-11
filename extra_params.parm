@@ -1,0 +1,8 @@
+# --- SITL Extra Parameters ---
+# Bypasses all arming checks for simulation stability
+ARMING_SKIPCHK -1
+# Resets virtual throttle (RC3) to 1000
+RC3_MIN 1000
+RC3_MAX 2000
+RC3_TRIM 1000
+RC3_REVERSED 0

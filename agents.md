@@ -17,26 +17,28 @@ This repository is a specialized development environment for autonomous UAVs (Dr
 - **Python Setup**: Managed by `uv`, uses `.venv`.
 
 ## Simulation Workflow (Quick Start)
-1. **Turbo Start**: `./start_sim.sh` (Opens 3 terminal windows automatically).
-2. **Setup Drone**: Click **PLAY** in Gazebo, then run `./drone_cmd.sh`.
+1. **Turbo Start**: `./start_sim.sh`
+   - This cleans old processes, builds ArduPilot (if needed), sets Bratislava location, and links MAVSDK.
+2. **Setup Drone**: Wait for `AP: ArduPilot Ready` in SITL, then click **PLAY** in Gazebo.
 3. **Start Mission**: `uv run python fly.py`
 
 ### Detailed Workflow (Manual)
 1. **Kill processes**: `pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"`
-2. **SITL (T1)**: `sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --map --console`
-   - In MAVProxy: `param set ARMING_SKIPCHK 64`, `rc 3 1000`, `output add 127.0.0.1:14551`.
+2. **SITL (T1)**: `sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --location=Bratislava --add-param-file=extra_params.parm --out=udp:127.0.0.1:14551 --map --console`
 3. **GZ Server (T2)**: `gz sim -s iris_runway.sdf`
-4. **GZ GUI (T3)**: `gz sim -g` (Press **PLAY**).
+4. **GZ GUI (T3)**: `gz sim -g` (Press **PLAY** after SITL is ready).
 5. **Mission (T4)**: `uv run python fly.py`
 
 ## Critical Configuration Notes
 - **Lock-step**: Set to `0` in `iris_with_gimbal/model.sdf` for macOS stability.
 - **Port 14550**: Reserved for **QGroundControl** (Standard MAVProxy output).
 - **Port 14551**: Dedicated to **MAVSDK** (`fly.py`) via `udpin://0.0.0.0:14551`.
-- **Arming Bypass**: Use `ARMING_SKIPCHK = 64` for ArduCopter 4.8.0-dev in simulation.
-- **GPU Acceleration**: Metal (MPS) is enabled and verified for PyTorch.
+- **Arming Bypass**: Use `ARMING_SKIPCHK = -1` in `extra_params.parm` for ArduCopter 4.8.0-dev.
+- **Throttle Reset**: `extra_params.parm` forces `RC3_MIN=1000` to prevent "Throttle too high" errors.
+- **Dependencies**: Ensure `gnureadline` and `empy==3.3.4` are installed in `.venv`.
 
 ## Core Logic Files
 - `fly.py`: Main autonomous mission script using MAVSDK async patterns.
+- `extra_params.parm`: Critical SITL parameter overrides (Arming & Throttle).
 - `pyproject.toml`: Modern project configuration (uv).
 - `docs/architecture_setup.md`: Full architectural deep-dive.

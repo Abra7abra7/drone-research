@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "broken-build-empy",
+  "prompt": "Skúšam spustiť ./start_sim.sh, ale v okne SITL mi to vyhodilo: 'you need to install empy with python3 -m pip install empy==3.3.4'. Čo mám robiť?",
+  "assertions": [
+    {
+      "text": "Skill should identify empy as the issue",
+      "passed": null
+    },
+    {
+      "text": "Skill should suggest 'uv sync' or adding empy to pyproject.toml",
+      "passed": null
+    }
+  ]
+}

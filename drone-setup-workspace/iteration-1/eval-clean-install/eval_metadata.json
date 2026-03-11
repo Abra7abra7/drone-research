@@ -1,0 +1,19 @@
+{
+  "eval_id": 0,
+  "eval_name": "clean-install",
+  "prompt": "Mám nový Mac M3 a čerstvo stiahnutý tento repozitár. Ako tu rozbehnem simuláciu a prvý autonómny let v Bratislave? Priprav mi všetko potrebné.",
+  "assertions": [
+    {
+      "text": "Skill should run 'uv sync'",
+      "passed": null
+    },
+    {
+      "text": "Skill should check for extra_params.parm",
+      "passed": null
+    },
+    {
+      "text": "Skill should mention ./start_sim.sh",
+      "passed": null
+    }
+  ]
+}
