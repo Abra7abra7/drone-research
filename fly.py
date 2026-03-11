@@ -1,3 +1,4 @@
+from mavsdk.offboard import VelocityBodyYawspeed
 import asyncio
 from mavsdk import System
 
@@ -22,12 +23,30 @@ async def run():
 
     print("🛫 Vzlietame do 5 metrov...")
     await drone.action.arm()
+    await drone.action.set_takeoff_altitude(5.0)
     await drone.action.takeoff()
     
-    # Nastavíme výšku
-    await drone.action.set_takeoff_altitude(5.0)
-
     await asyncio.sleep(10)
+
+    print("🚀 Prepínam na Offboard a letíme 20 metrov dopredu...")
+    # Pred štartom Offboard módu musíme poslať aspoň jednu sadu príkazov
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 0.0))
+    
+    try:
+        await drone.offboard.start()
+    except Exception as e:
+        print(f"❌ Chyba štartu Offboard: {e}")
+        await drone.action.land()
+        return
+
+    # Letíme rýchlosťou 5m/s po dobu 4 sekúnd (spolu 20 metrov)
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(5.0, 0.0, 0.0, 0.0))
+    await asyncio.sleep(4)
+
+    # Zastavíme a prepneme späť
+    await drone.offboard.set_velocity_body(VelocityBodyYawspeed(0.0, 0.0, 0.0, 0.0))
+    await asyncio.sleep(2)
+    await drone.offboard.stop()
 
     print("🛬 Pristávame...")
     await drone.action.land()

@@ -5,8 +5,8 @@ echo "🧹 Čistím staré procesy..."
 pkill -9 -f "arducopter|gz|sim_vehicle|mavproxy"
 
 # --- 2. Spustenie Mozgu (ArduPilot) v novom okne ---
-echo "🧠 Spúšťam ArduPilot SITL..."
-osascript -e 'tell app "Terminal" to do script "cd '$PWD' && source ~/.zshrc && sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --map --console"'
+echo "🧠 Spúšťam ArduPilot SITL v Bratislave..."
+osascript -e 'tell app "Terminal" to do script "cd '$PWD' && source ~/.zshrc && sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --location=48.148598,17.107748,0,0 --map --console"'
 
 # --- 3. Spustenie Sveta (Gazebo Server) v novom okne ---
 echo "🌍 Spúšťam Gazebo Server..."
