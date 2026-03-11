@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# ArduPilot & Simulation artifacts
+ardupilot/
+ardupilot_gazebo/
+logs/
+terrain/
+eeprom.bin
+mav.tlog
+mav.tlog.raw
+mav.parm
+*.log
+*.bin
